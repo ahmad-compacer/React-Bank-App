@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { DataGrid } from "@material-ui/data-grid";
+import axios from 'axios'
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-var client = require('./client');
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -25,9 +24,10 @@ export default class AccountsComponent extends Component {
     this.loadAccounts();
   }
 
-  loadAccounts() {
-    
-client.get("http://192.168.233.128:8054/v1/accounts")
+  loadAccounts() { 
+    const {REACT_APP_BASE_URL}= process.env;
+
+    axios.get ({REACT_APP_BASE_URL})
       .then((res) => {
         rows = res.data;
         this.setState({ dataLoaded: true });
@@ -60,3 +60,4 @@ client.get("http://192.168.233.128:8054/v1/accounts")
     }
   }
 }
+
