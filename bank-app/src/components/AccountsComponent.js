@@ -1,14 +1,7 @@
 import React, { Component } from "react";
-import { DataGrid } from "@material-ui/data-grid";
-import axios from 'axios'
+import axios from "axios";
+import AccountsTableView from "../views/AccountsTableView";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "name", headerName: "Name", width: 200 },
-  { field: "iBan", headerName: "iBan", width: 400 },
-  { field: "balance", headerName: "balance", width: 300 },
-];
 
 var rows = [];
 
@@ -24,10 +17,11 @@ export default class AccountsComponent extends Component {
     this.loadAccounts();
   }
 
-  loadAccounts() { 
-    const {REACT_APP_BASE_URL}= process.env;
-
-    axios.get ({REACT_APP_BASE_URL})
+  loadAccounts() {
+    const baseURL = process.env.REACT_APP_BASE_URL;
+    let endpoint = baseURL + "/v1/accounts";
+    axios
+      .get(endpoint)
       .then((res) => {
         rows = res.data;
         this.setState({ dataLoaded: true });
@@ -40,16 +34,7 @@ export default class AccountsComponent extends Component {
   }
   render() {
     if (this.state.dataLoaded) {
-      return (
-        <div style={{ height: 450, width: "100%" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={6}
-            checkboxSelection
-          />
-        </div>
-      );
+      return <AccountsTableView items={rows} />;
     } else {
       const style = { textAlign: "center" };
       return (
@@ -60,4 +45,3 @@ export default class AccountsComponent extends Component {
     }
   }
 }
-
