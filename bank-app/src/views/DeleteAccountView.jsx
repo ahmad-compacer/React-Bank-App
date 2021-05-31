@@ -1,12 +1,27 @@
-import React, { Component } from "react";
+import { FormControlLabel, IconButton } from "@material-ui/core";
+import { blue } from "@material-ui/core/colors";
+import DeleteIcon from "@material-ui/icons/Delete";
 
-class DeleteAccountView extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Coming soon!</h1>
-      </div>
-    );
-  }
-}
-export default DeleteAccountView;
+
+const MatDelete = ({ index }) => {
+  const handleDeleteClick = () => {
+    // some action
+    
+  };
+
+  return (
+    <FormControlLabel
+      control={
+        <IconButton
+          color="secondary"
+          aria-label="add an alarm"
+          onClick={handleDeleteClick}
+        >
+          <DeleteIcon  title="Delete your account" style={{ color: blue[500] }} />
+        </IconButton>
+      }
+    />
+  );
+};
+
+export default MatDelete
