@@ -1,12 +1,25 @@
-import React, { Component } from "react";
+import { FormControlLabel, IconButton } from "@material-ui/core";
+import { blue } from "@material-ui/core/colors";
+import EuroIcon from "@material-ui/icons/Delete";
 
-class PutMoneyView extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Coming soon!</h1>
-      </div>
-    );
-  }
-}
-export default PutMoneyView;
+const MatPut = ({put}) => {
+  const handlePutClick = () => {
+    // some action
+  };
+
+  return (
+    <FormControlLabel
+      control={
+        <IconButton
+          color="secondary"
+          aria-label="add an alarm"
+          onClick={handlePutClick}
+        >
+          <EuroIcon title="Put money" style={{ color: blue[500] }} />
+        </IconButton>
+      }
+    />
+  );
+};
+
+export default MatPut;
