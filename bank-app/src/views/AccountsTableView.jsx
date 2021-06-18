@@ -5,14 +5,20 @@ import MatPut from "./PutMoneyView";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
-  { field: "name", headerName: "Name", width: 200 },
-  { field: "iBan", headerName: "iBan", width: 400 },
-  { field: "balance", headerName: "balance", width: 300 },
-  {field: "actions1", headerName: "Delete your account", sortable: false, width: 180, disableClickEventBubbling: true,
+  { field: "name", headerName: "Name", width: 150 },
+  { field: "iBan", headerName: "iBan", width: 250 },
+  { field: "balance", headerName: "balance", width: 150 },
+  { field: "€", headerName: "€", width: 5, 
+  renderCell: () => { return (
+    <div>
+      €
+    </div>
+  )} },
+  {field: "actions1", headerName: "Delete your account", sortable: false, width: 250, disableClickEventBubbling: true,
     renderCell: (params) => {
       return (
         <div>
-          <MatDelete index={params.row.id} />
+          <MatDelete getID={params.row.id} />
         </div>
       );
     },
@@ -21,7 +27,7 @@ const columns = [
     renderCell: (params) => {
       return (
         <div>
-          <MatPut put={params.row.id} />
+          <MatPut getID={params.row.id} />
         </div>
       );
     },
