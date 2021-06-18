@@ -1,59 +1,50 @@
-import React from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
+import React, { Component } from "react";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
+import Authentication from "../components/Authentication";
 
-const StyledTabs = withStyles({
-  indicator: {
-    display: "flex",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-    "& > span": {
-      maxWidth: 40,
-      width: "100%",
-      backgroundColor: "#635ee7",
-    },
-  },
-})((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
+export default class ButtonAppBar extends Component {
+  render() {
+    const loggedin = Authentication.loggedin();
 
-const StyledTab = withStyles((theme) => ({
-  root: {
-    textTransform: "none",
-    color: "#fff",
-    fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.pxToRem(15),
-    marginRight: theme.spacing(1),
-    "&:focus": {
-      opacity: 1,
-    },
-  },
-}))((props) => <Tab disableRipple {...props} />);
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  padding: { padding: theme.spacing(3) },
-  demo1: { backgroundColor: theme.palette.background.paper },
-  demo2: { backgroundColor: "#2e1534" },
-}));
-
-export default function HeaderView() {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.root}>
-      <div className={classes.demo2}>
-        <StyledTabs>
-          <StyledTab label="Home" href="home" />
-          <StyledTab label="All accounts" href="all" />
-          <StyledTab label="Put money" href="put" />
-          <StyledTab label="Add new Account" href="post" />
-          <StyledTab label="Delete your account" href="delete" />
-        </StyledTabs>
-        <Typography className={classes.padding} />
+    return (
+      <div>
+        <AppBar position="sticky">
+          <Toolbar position="relative">
+            {loggedin && (
+              <Button raised color="inherit" position="fixed" href="home">
+                Home
+              </Button>
+            )}
+            {loggedin && (
+              <Button raised color="inherit" position="fixed" href="all">
+                All accounts
+              </Button>
+            )}
+            {loggedin && (
+              <Button raised color="inherit" position="fixed" href="post">
+                Add new Account
+              </Button>
+            )}
+            <hr />
+            {!loggedin && (
+              <Button raised color="inherit" position="fixed" href="login">
+                Login
+              </Button>
+            )}
+            {loggedin && (
+              <Button
+                color="inherit"
+                onClick={Authentication.logout}
+                href="logout"
+              >
+                Logout
+              </Button>
+            )}
+          </Toolbar>
+        </AppBar>
       </div>
-    </div>
-  );
+    );
+  }
 }
