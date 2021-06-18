@@ -1,49 +1,62 @@
 import React from "react";
 import axios from "axios";
+import Grid from "@material-ui/core/Grid";
 
 export default class PersonList extends React.Component {
-  state = {
-    name: "",
-    iBan: "",
-  };
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      iBan: 0,
+    };
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeiBan = this.handleChangeiBan.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  handleChange = (event) => {
+  handleChangeName(event) {
     this.setState({ name: event.target.value });
+  }
+
+  handleChangeiBan = (event) => {
+    this.setState({ iBan: event.target.value });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-
-    const namePath = {
-      name: this.state.name
-    };
-    const iBanPath = {
-      iBan: "/"+ this.state.iBan
-    };
-
-    axios
-      .post("http://192.168.233.128:8054/v1/accounts/", {namePath}, {iBanPath})
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
-      });
+    const baseURL = process.env.REACT_APP_BASE_URL;
+    let endpoint =
+      baseURL + "/accounts/" + this.state.name + "/" + this.state.iBan;
+    axios.post(endpoint).then((res) => {
+      console.log(res.config);
+      if (res.data != null) {
+        console.log("account added successfully");
+        alert("account added successfully");
+        this.props.history.push(`/all`)
+      }}).catch((error) => {
+      if (error.request){
+        console.log('account not deledet')
+        alert('Account not added! please try again ')
+        alert('Be careful, the iBan must be 22 numbers')
+      }
+    });
   };
 
   render() {
     return (
-      <div>
+      <Grid align="center">
         <form onSubmit={this.handleSubmit}>
           <label>
-            Please inter your name:
-            <input type="text" name="name" onChange={this.handleChange} />
+            <h1>Please inter your name:</h1>
+            <input type="text" name="name" pattern="^\*(\.\{0,2})?$" onChange={this.handleChangeName} />
           </label>
           <label>
-            Please inter iBan:
-            <input type="number" iBan="iBan" onChange={this.handleChange} />
+            <h1>Please inter iBan:</h1>
+            <input type="number" name="iBan" onChange={this.handleChangeiBan} />
           </label>
           <button type="submit">Add</button>
         </form>
-      </div>
+      </Grid>
     );
   }
 }
